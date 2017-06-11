@@ -101,11 +101,11 @@ int match(char *regexp, char *text)
     do {    /* must look even if string is empty */
         if (matchhere(regexp, text))
         {
-            printf("\nPreprocessed regular expression %s", regexp);
-            printf("\nPart of the string matched -> ");
+/*            printf("\nPreprocessed regular expression %s", regexp);*/
+/*            printf("\nPart of the string matched -> ");*/
             for (int iter=0; iter < strlen(text) - extra_length; iter ++)
                 printf("%c", *(text + iter));            
-            printf("\n");
+/*            printf("\n");*/
             return 1;
         }
         index ++;
@@ -240,7 +240,6 @@ int matchhere(char *regexp, char *text)
     }
     if (regexp[0] == '[') //Dealing with square brackets
     {
-        printf("\nEncounter open\n");
         j = 0;
         i = 1;
         if(regexp[1] != '^')
@@ -278,7 +277,6 @@ int matchhere(char *regexp, char *text)
                 else
                     c[j++] = regexp[i++];
             }
-            printf("\nEncountered close");
             c[j] = '\0';
         }
         else if(regexp[1] == '^') //Dealing with complements inside brackets
@@ -369,7 +367,6 @@ int matchhere(char *regexp, char *text)
     }
     if (*text!='\0' && (regexp[0]=='.' || regexp[0]==*text))
     {
-/*        printf("till %s\n", text+1);*/
         extra_length = strlen(text + 1);
         return matchhere(regexp+1, text+1);
     }
@@ -477,7 +474,6 @@ void preprocessfreq(char *reg, int length)
     iter = 0;
     while(i < length)
     {
-        //printf("came %d\n", i);
         if(i < (length - 1) && reg[i] == SLASH)
         {
             if(reg[i + 1] == '{') // Found a pattern \{
@@ -751,21 +747,13 @@ int CompareString(char temp_reg[], char str[])
 int main(int argc, char *argv[])
 {
 	char strCompare[MAX_STRING_LENGTH], regexCompare[MAX_REGEX_LENGTH];
-	printf("\nEntered regex is : %s", argv[1]);
-/*	gets(regexCompare);*/
 
-/*	while(1)*/
-    if(1)
-	{
-		printf("\nEntered string is : %s", argv[2]);
-/*		gets(strCompare);*/
-
-/*		if (CompareString(regexCompare, strCompare) == 1)*/
-        if (CompareString(argv[1], argv[2]) == 1)
-			printf("\nMatch!\n");
-		else
-			printf("\nNo match!\n");
-		//break;
+    if (CompareString(argv[1], argv[2]) == 1)
+    {
+		return 0;//printf("\nMatch!\n");
 	}
-	return 0;
+	else
+	{
+		return 1;//printf("\nNo match!\n");
+    }
 }
