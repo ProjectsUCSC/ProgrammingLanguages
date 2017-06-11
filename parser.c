@@ -757,14 +757,14 @@ int main(int argc, char *argv[])
 /*	while(1)*/
     if(1)
 	{
-		printf("\nEntered string is %s:", argv[2]);
+		printf("\nEntered string is : %s", argv[2]);
 /*		gets(strCompare);*/
 
 /*		if (CompareString(regexCompare, strCompare) == 1)*/
         if (CompareString(argv[1], argv[2]) == 1)
-			printf("Match!");
+			printf("\nMatch!\n");
 		else
-			printf("no match");
+			printf("\nNo match!\n");
 		//break;
 	}
 	return 0;
