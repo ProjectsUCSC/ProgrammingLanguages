@@ -73,6 +73,8 @@ Expression: 	Description:
 
 /* match: search for regexp anywhere in text */
 
+int extra_length = 0;
+
 int match(char *regexp, char *text)
 {
     /*
@@ -80,6 +82,7 @@ int match(char *regexp, char *text)
     */
 
     char newtext[MAX_STRING_LENGTH + 1], newregex[MAX_REGEX_LENGTH + 1];
+    int index = 0;
 
     if (regexp[0] == '^')
         return matchhere(regexp+1, text);
@@ -97,7 +100,15 @@ int match(char *regexp, char *text)
 
     do {    /* must look even if string is empty */
         if (matchhere(regexp, text))
+        {
+            printf("Preprocessed regular expression %s\n", regexp);
+            printf("Part of the string matched - > ");
+            for (int iter=0; iter < strlen(text) - extra_length; iter ++)
+                printf("%c", *(text + iter));            
+            printf("\n");
             return 1;
+        }
+        index ++;
     } while (*text++ != '\0');
 
     return 0;
@@ -223,9 +234,13 @@ int matchhere(char *regexp, char *text)
     char c[MAX_REGEX_LENGTH + 500], temp, label[8];
     int i, j, k;
     if (regexp[0] == '\0')
+    {
+        extra_length = strlen(text);
         return 1;
+    }
     if (regexp[0] == '[') //Dealing with square brackets
     {
+        printf("\nEncounter open\n");
         j = 0;
         i = 1;
         if(regexp[1] != '^')
@@ -263,6 +278,7 @@ int matchhere(char *regexp, char *text)
                 else
                     c[j++] = regexp[i++];
             }
+            printf("\nEncountered close");
             c[j] = '\0';
         }
         else if(regexp[1] == '^') //Dealing with complements inside brackets
@@ -304,28 +320,59 @@ int matchhere(char *regexp, char *text)
             }
         }
         if (regexp[i + 1] == '*')
+        {
+            extra_length = strlen(text);
             return matchstarbrackets(c, regexp + i + 2, text);
+        }
         else if (regexp[i + 1] == '+')
+        {
+            extra_length = strlen(text);
             return matchplusbrackets(c, regexp + i + 2, text);
+        }
         else if (regexp[i + 1] == '?')
+        {
+            extra_length = strlen(text);
             return matchquebrackets(c, regexp + i + 2, text);
+        }
         else if (isin(text++, c))
+        {
+            extra_length = strlen(text);
             return matchhere(regexp + i + 1, text);
+        }       
         else
             return 0;
     }
     if (regexp[1] == '?')
+    {
+        extra_length = strlen(text);
         return matchquemark(regexp[0], regexp+2, text);
+    }
     if (regexp[1] == '*')
+    {
+        extra_length = strlen(text);
         return matchstar(regexp[0], regexp+2, text);
+    }
     if (regexp[1] == '+')
+    {
+        extra_length = strlen(text);
         return matchplus(regexp[0], regexp+2, text);
+    }
     if (regexp[0] == '$' && regexp[1] == '\0')
+    {
+        extra_length = strlen(text);
         return *text == '\0';
+    }
     if (regexp[0] == '/' && regexp[1] == '>' && regexp[2] == '\0')
+    {
+        extra_length = strlen(text);
         return *text == ' ' || *text == '\0';
+    }
     if (*text!='\0' && (regexp[0]=='.' || regexp[0]==*text))
+    {
+/*        printf("till %s\n", text+1);*/
+        extra_length = strlen(text + 1);
         return matchhere(regexp+1, text+1);
+    }
     return 0;
 }
 
@@ -681,19 +728,21 @@ int CompareString(char temp_reg[], char str[])
     numgroups = buildarray(regarray, temp_reg, (int)strlen(temp_reg));//Gives the number of regexes to implement OR operation
     i = 0;
 
+/*    Multiple regexes separated by or \|*/
     while(i<numgroups)
     {
         //We do a bunch of preprocessing
         preprocess(regarray[i], (int)strlen(regarray[i]), 1);
         preprocess(str, (int)strlen(str), 0);
         
-        //printf("%s\n",regarray[i]);
         if(match(regarray[i], str))
         {
             return 1;
         }
         else
+        {
             i++;
+        }
     }
     //printf("Not found\n");
     return 0;
