@@ -101,8 +101,8 @@ int match(char *regexp, char *text)
     do {    /* must look even if string is empty */
         if (matchhere(regexp, text))
         {
-            printf("Preprocessed regular expression %s\n", regexp);
-            printf("Part of the string matched - > ");
+            printf("\nPreprocessed regular expression %s", regexp);
+            printf("\nPart of the string matched -> ");
             for (int iter=0; iter < strlen(text) - extra_length; iter ++)
                 printf("%c", *(text + iter));            
             printf("\n");
@@ -748,18 +748,20 @@ int CompareString(char temp_reg[], char str[])
     return 0;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
 	char strCompare[MAX_STRING_LENGTH], regexCompare[MAX_REGEX_LENGTH];
-	printf("Enter the regex expression:");
-	gets(regexCompare);
+	printf("\nEntered regex is : %s", argv[1]);
+/*	gets(regexCompare);*/
 
-	while(1)
+/*	while(1)*/
+    if(1)
 	{
-		printf("\nEnter the test string:");
-		gets(strCompare);
+		printf("\nEntered string is %s:", argv[2]);
+/*		gets(strCompare);*/
 
-		if (CompareString(regexCompare, strCompare) == 1)
+/*		if (CompareString(regexCompare, strCompare) == 1)*/
+        if (CompareString(argv[1], argv[2]) == 1)
 			printf("Match!");
 		else
 			printf("no match");
