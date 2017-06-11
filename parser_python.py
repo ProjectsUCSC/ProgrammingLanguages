@@ -9,7 +9,7 @@ def parser(regex, string):
     exit_code = process.wait()
 
     if exit_code == 0:
-        return output
+        return output.decode('UTF-8')
     elif exit_code == 1:
         return "No match found!"
     else:
