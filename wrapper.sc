@@ -1,10 +1,10 @@
 import scala.sys.process._
 
-"/Users/avaniarora/Desktop/ProgrammingLanguages/./parser a+bc aabc".!
+val fpath ="/Users/shubhi/Public/ProgrammingLanguages/parser "
 
-//println(contents)
+var contents = fpath + "a+bc aabc".!!
 
-
+println(contents)
 
 
 
