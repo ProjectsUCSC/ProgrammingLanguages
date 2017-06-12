@@ -10,4 +10,4 @@ func shell(_ args: String...) -> Int32 {
   return task.terminationStatus 
 } 
 
-shell("./a.out","a+bc", "aabc")
+shell("./parser","a+bc", "aabc")

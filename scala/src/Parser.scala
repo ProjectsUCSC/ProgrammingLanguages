@@ -7,10 +7,10 @@ class Parser(fpath: String) {
     var contents = ""
 
     try {
-      contents = (fpath + regex + " " + test_str).!!
+      contents = (fpath + " " + regex + " " + test_str).!!
     } catch {
       case e: Exception =>
-        var exit_code = (fpath + regex + " " + test_str).!;
+        var exit_code = (fpath + " " + regex + " " + test_str).!;
         if (exit_code == 1) println(" no match found !")
         else
           print(" non 0 exit code, please examine your query " + exit_code)
@@ -33,9 +33,8 @@ class Parser(fpath: String) {
 object Parser {
 
   def main(args: Array[String]): Unit = {
-    val fpath = "/Users/shubhi/Public/ProgrammingLanguages/parser "
+    val fpath = "../.././parser"
     val p = new Parser(fpath)
     p.interactive_parser()
   }
-
 }
