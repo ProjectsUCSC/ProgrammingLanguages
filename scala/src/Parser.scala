@@ -10,10 +10,10 @@ class Parser(fpath: String) {
       contents = (fpath + regex + " " + test_str).!!
     } catch {
       case e: Exception =>
-        var exit_code = (fpath + regex + " " + test_str).!;
+        val exit_code = (fpath + regex + " " + test_str).!
         if (exit_code == 1) println(" no match found !")
         else
-          print(" non 0 exit code, please examine your query " + exit_code)
+          print(" non 0 exit code, please examine your query " + exit_code + e.toString)
     }
     println(contents)
   }
@@ -23,7 +23,7 @@ class Parser(fpath: String) {
     val regex = readLine("Please enter the regex ")
     val test_str = readLine("Please enter the test string ")
     parse(regex, test_str)
-    var answer = readLine("Do you want to continue? y/N ")
+    val answer = readLine("Do you want to continue? y/N ")
     if (answer == "y") interactive_parser()
 
   }
