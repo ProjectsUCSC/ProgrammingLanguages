@@ -32,7 +32,7 @@ Instructions for running the GO Parser
 5. Open parser_go.go in an editor and change the path of the compiled parser on line 10
    eg: command := "/Users/avaniarora/Desktop/ProgrammingLanguages/./parser" + " " + regex + " " + text
 6. After saving the changes, on the terminal 
-    a) go build  //compile the go program
+    a) go build  //compiles the go program
     b) ./parser_go
 
 
