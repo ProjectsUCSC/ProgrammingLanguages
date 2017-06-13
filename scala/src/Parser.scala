@@ -33,7 +33,7 @@ class Parser(fpath: String) {
 object Parser {
 
   def main(args: Array[String]): Unit = {
-    val fpath = "../.././parser"
+    val fpath = args(0)
     val p = new Parser(fpath)
     p.interactive_parser()
   }
